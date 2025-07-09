@@ -1,0 +1,23 @@
+Insert a record in 'INCIDENT' table :-
+
+  var gr =new GlideRecord('incident');
+  gr.initialize();
+  gr.short_description='testing from BS';
+  gr.caller_id ='jsduyt3456cvbnu45678dfgh';  //copy sys_id from of anyone from users table
+  gr.insert();                               // click run script
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+If we want to update this record :--
+  var gr = new GlideRecord('incident');
+gr.addQuery('sys_id','96c2c7ba932ea210a444b4897bba10cf');
+gr.query();
+if(gr.next()){
+	gr.category='network';
+	gr.short_description='updated fron BS';
+	gr.update();
+	
+}
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  
