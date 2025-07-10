@@ -19,5 +19,138 @@ if(gr.next()){
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+To check the count of parrticular rows:--
 
-  
+var gr = new GlideRecord('incident');
+gr.addQuery('category','network');
+gr.addQuery('active',true);
+gr.query();
+gs.print(gr.getRowCount());
+----------------------------------------------------------------------------------------------------------------------------------------
+If we wnatb to print the ticket number and along with count
+
+var gr = new GlideRecord('incident');
+gr.addQuery('category','network');
+gr.addQuery('active',true);
+gr.query();
+gs.print(gr.getRowCount());
+while(gr.next()){
+	gs.print(gr.number);
+}
+----------------------------------------------------------------------------------------------------------------------------------------
+To update the fields:-- 
+
+var gr = new GlideRecord('incident');
+gr.addQuery('category','network');
+gr.addQuery('active',true);
+gr.query();
+//gs.print(gr.getRowCount());
+while(gr.next()){
+	gr.category='hardware';
+	gr.short_description='updated to hardware';
+	gr.update();
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+To print the count of records which are filetered:--
+(we can use 'addencodedquery' to write multiple queries in single line)
+
+var gr = new GlideRecord('incident');
+gr.addEncodedQuery('active=true^category=network^state=1');
+gr.query();
+gs.print(gr.getRowCount());
+
+----------------------------------------------------------------------------------------------------------------------------------
+If we wnat to update any field in encodedquery:--
+
+var gr = new GlideRecord('incident');
+gr.addEncodedQuery('active=true^category=network^state=1');
+gr.query();
+gs.print(gr.getRowCount());
+while(gr.next()){
+	gr.short_description('testing short description');
+	gr.update();
+}
+
+-----------------------------------------------------------------------------------------------------------------------
+If we want to count all "ACTIVE" records in table. we will use "ADDACTIVEQUERY" method
+
+var gr = new GlideRecord('incident');
+gr.addactiveQuery();
+gr.query();
+gs.print(gr.getRowCount());
+------------------------------------------------------------------------------------------------------------------------
+To count all the "INACTIVE" records. we will use "ADDINACTIVEQUERY" method.
+ 
+var gr = new GlideRecord('incident');
+gr.addInactiveQuery();
+gr.query();
+gs.print(gr.getRowCount());
+-------------------------------------------------------------------------------------------------------------------------
+If we want to count the 'NULL' records in a table. we will use 'ADDNULLQUERY'.
+
+var gr = new GlideRecord('incident');
+gr.addNullQuery('description'); //give any field name
+gr.query();
+gs.print(gr.getRowCount());
+
+---------------------------------------------------------------------------------------------------------------------------
+to count the 'Not Null' records . use 'ADDNOTNULLQUERY':-
+
+var gr = new GlideRecord('incident');
+gr.addNotNullQuery('description');
+gr.query();
+gs.print(gr.getRowCount());
+--------------------------------------------------------------------------------------------------------------------------
+If we want to see the recently 'created' records in table use 'ORDERBYDESC' :
+
+var gr = new GlideRecord('incident');
+gr.orderByDesc('sys_created_on');   //give sys id 
+gr.setLimit(5);                  //if we want top 5, use 'setlimit'
+gr.query();
+gs.print(gr.getRowCount());
+while(gr.next()){
+	gs.print(gr.number);      //if we want to see number 
+}
+---------------------------------------------------------------------------------------------------------------------------
+If we want to see the recently 'updated' records.
+
+var gr = new GlideRecord('incident');
+gr.orderByDesc('sys_updated_on');
+gr.setLimit(5);
+gr.query();
+gs.print(gr.getRowCount());
+while(gr.next()){
+	gs.print(gr.number);
+}
+
+--------------------------------------------------------------------------------------------------------------------------
+If we want to see long ago/first updated records use 'ORDERBY' :--
+
+var gr = new GlideRecord('incident');
+gr.orderBy('sys_updated_on');
+gr.setLimit(5);
+gr.query();
+gs.print(gr.getRowCount());
+while(gr.next()){
+	gs.print(gr.number);
+}
+
+-----------------------------------------------------------------------------------------------------------------------------
+To see first created records:--
+
+var gr = new GlideRecord('incident');
+gr.orderBy('sys_created_on');
+gr.setLimit(5);
+gr.query();
+gs.print(gr.getRowCount());
+while(gr.next()){
+	gs.print(gr.number);
+}
+------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
