@@ -1,0 +1,19 @@
+Insert a record in the user table with Userid as tech, phone num as 9999999999.
+
+var gr = new GlideRecord('sys_user');
+gr.initialize();
+gr.department='product management';
+gr.user_name='ashwi';
+gr.insert();
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+var gr = new GlideRecord('sys_user');
+gr.addEncodedQuery('gender=Female^mobile_phoneISEMPTY');
+gr.query();
+while(gr.next()){
+	gr.mobile_phone='9912499124';
+	gr.update();
+}
+
+-----------------------------------------------------------------------------------------------------------------------------------
