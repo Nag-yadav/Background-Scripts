@@ -1,0 +1,24 @@
+function onChange(control, oldValue, newValue, isLoading) {
+    if (isLoading || newValue == '') {
+        return;
+    }
+
+
+    var ga = new GlideAjax("DemoOnMultimedia");
+    ga.addParam("sysparm_name", "getUser");
+    ga.addParam("sysparm_id", newValue);
+    ga.getXML(multimedia);
+
+    function multimedia(response) {
+        var result = response.responseXML.documentElement.getAttribute("answer");
+
+        var details = result.split(",");
+        var email = details[0];
+        var department = details[1];
+        var location = details[2];
+        g_form.setValue("requestors_email", email);
+        g_form.setValue("requestors_department", department);
+        g_form.setValue("requestors_location", location);
+
+    }
+}
