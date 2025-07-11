@@ -1,24 +1,49 @@
+CATALOG CLIENT SCRIPT CODE:-
+-----------------------------
 function onChange(control, oldValue, newValue, isLoading) {
     if (isLoading || newValue == '') {
         return;
     }
 
-
-    var ga = new GlideAjax("DemoOnMultimedia");
+    var ga = new GlideAjax("DemoOnMultimedia"); // Make sure Script Include name is correct
     ga.addParam("sysparm_name", "getUser");
-    ga.addParam("sysparm_id", newValue);
-    ga.getXML(multimedia);
+    ga.addParam("sysparm_id", newValue); // newValue is the sys_id of the user
+    ga.getXMLAnswer(function(response) {
+        var result = response;
 
-    function multimedia(response) {
-        var result = response.responseXML.documentElement.getAttribute("answer");
+        if (result) {
+            var details = result.split(",");
+            var email = details[0];
+            var department = details[1];
+            var location = details[2];
+			var company = details[3];
 
-        var details = result.split(",");
-        var email = details[0];
-        var department = details[1];
-        var location = details[2];
-        g_form.setValue("requestors_email", email);
-        g_form.setValue("requestors_department", department);
-        g_form.setValue("requestors_location", location);
-
-    }
+            // Ensure these variable names match exactly with your catalog variables
+            g_form.setValue("requestors_email",email);
+            g_form.setValue("requestors_department",department);
+            g_form.setValue("requestors_location",location);
+			g_form.setValue("requestors_company",company);
+        }
+    });
 }
+
+
+
+ Script include code:--
+--------------------------------------------
+var DemoOnMultimedia = Class.create();
+DemoOnMultimedia.prototype = Object.extendsObject(AbstractAjaxProcessor, {
+
+    getUser: function() {
+        var userId = this.getParameter("sysparm_id");
+        var gr = new GlideRecord("sys_user");
+        if (gr.get(userId)) {
+            var email = gr.email;
+            var department = gr.department;
+            var location = gr.location;
+			var company = gr.company;
+            return email + "," + department + "," + location+","+ company;
+        }
+    },
+ type: 'DemoOnMultimedia'
+});
